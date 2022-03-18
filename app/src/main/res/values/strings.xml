@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Chat</string>
+    <string name="wrong_message">Wrong message</string>
+    <string name="userid_too_short">Your userid is too short.</string>
+    <string name="userid_too_long">Your userid is too long.</string>
+    <string name="pwd_too_short">Your password is too short.</string>
+    <string name="pwd_too_long">Your password is too long.</string>
+    <string name="pwd_is_wrong">Your password can only contain letters and numbers.</string>
+    <string name="pwd_is_not_same">Your password is not same.</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+</resources>
