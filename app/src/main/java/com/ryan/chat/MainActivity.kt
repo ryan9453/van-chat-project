@@ -13,6 +13,9 @@ import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.ryan.chat.databinding.ActivityMainBinding
+import okhttp3.*
+import okio.ByteString
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -23,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     val mainFragments = mutableListOf<Fragment>()
     val chatFragments = mutableListOf<Fragment>()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -30,6 +34,8 @@ class MainActivity : AppCompatActivity() {
         binding.searchContainer.visibility = View.GONE
 
         initFragments()
+
+
 
         binding.bottonNavBar.setOnItemSelectedListener { item ->
             val prefLogin = getSharedPreferences("login", AppCompatActivity.MODE_PRIVATE)

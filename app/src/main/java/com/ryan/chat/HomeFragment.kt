@@ -1,6 +1,7 @@
 package com.ryan.chat
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ryan.chat.databinding.FragmentHomeBinding
 import com.ryan.chat.databinding.RowChatroomBinding
+import okhttp3.*
+import okio.ByteString
+import java.util.concurrent.TimeUnit
 
 class HomeFragment : Fragment() {
     companion object {
@@ -22,6 +26,7 @@ class HomeFragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
     val roomViewModel by viewModels<RoomViewModel>()
     lateinit var adapter: ChatRoomAdapter
+    lateinit var websocket: WebSocket
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +49,45 @@ class HomeFragment : Fragment() {
 
         if (login) binding.tvHomeLoginUserid.setText(username)
         else binding.tvHomeLoginUserid.setText("")
+
+        val client = OkHttpClient.Builder()
+            .readTimeout(3, TimeUnit.SECONDS)
+            .build()
+        val request = Request.Builder()
+            .url("wss://lott-dev.lottcube.asia/ws/chat/chat:app_test?nickname=Hank")
+            .build()
+
+        websocket = client.newWebSocket(request, object : WebSocketListener() {
+            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
+                super.onClosed(webSocket, code, reason)
+                Log.d(TAG, ": onClosed");
+            }
+
+            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
+                super.onClosing(webSocket, code, reason)
+                Log.d(TAG, ": onClosing");
+            }
+
+            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+                super.onFailure(webSocket, t, response)
+                Log.d(TAG, ": onFailure");
+            }
+
+            override fun onMessage(webSocket: WebSocket, text: String) {
+                super.onMessage(webSocket, text)
+                Log.d(TAG, ": onMessage $text");
+            }
+
+            override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
+                super.onMessage(webSocket, bytes)
+                Log.d(TAG, ": onMessage ${bytes.hex()}");
+            }
+
+            override fun onOpen(webSocket: WebSocket, response: Response) {
+                super.onOpen(webSocket, response)
+                Log.d(TAG, ": onOpen: response = $response")
+            }
+        })
 
         binding.btRoom.setOnClickListener {
             parentActivity.supportFragmentManager.beginTransaction().run {
