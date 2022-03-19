@@ -42,13 +42,16 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // 由此處開始寫 code
-        val parentActivity =  requireActivity() as MainActivity
+        val parentActivity = requireActivity() as MainActivity
         val prefLogin = requireContext().getSharedPreferences("login", AppCompatActivity.MODE_PRIVATE)
         var login = prefLogin.getBoolean("login_state", false)
         var username = prefLogin.getString("login_userid", "")
 
-        if (login) binding.tvHomeLoginUserid.setText(username)
-        else binding.tvHomeLoginUserid.setText("")
+        if (login) {
+            parentActivity.binding.tvHomeLoginUserid.setText(username)
+            parentActivity.binding.imHead.visibility = View.VISIBLE
+        }
+        else parentActivity.binding.tvHomeLoginUserid.setText("")
 
         val client = OkHttpClient.Builder()
             .readTimeout(3, TimeUnit.SECONDS)
@@ -89,14 +92,14 @@ class HomeFragment : Fragment() {
             }
         })
 
-        binding.btRoom.setOnClickListener {
-            parentActivity.supportFragmentManager.beginTransaction().run {
-                replace(R.id.main_container, parentActivity.mainFragments[0])
-                replace(R.id.chat_container, parentActivity.chatFragments[1])
-                commit()
-            }
-            parentActivity.binding.bottonNavBar.visibility = View.GONE
-        }
+//        binding.btRoom.setOnClickListener {
+//            parentActivity.supportFragmentManager.beginTransaction().run {
+//                replace(R.id.main_container, parentActivity.mainFragments[0])
+//                replace(R.id.chat_container, parentActivity.chatFragments[1])
+//                commit()
+//            }
+//            parentActivity.binding.bottonNavBar.visibility = View.GONE
+//        }
         binding.recycler.setHasFixedSize(true)
         binding.recycler.layoutManager = GridLayoutManager(requireContext(),2)
         adapter = ChatRoomAdapter()

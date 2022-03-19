@@ -1,9 +1,11 @@
 package com.ryan.chat
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.ryan.chat.databinding.FragmentRoomBinding
 
@@ -45,17 +47,32 @@ class RoomFragment : Fragment() {
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
-            val parentActivity =  requireActivity() as MainActivity
-
             // 由此處開始寫 code
+            val parentActivity =  requireActivity() as MainActivity
+            var path = "girl"
+            var vidPath = "android.resource://"+requireContext().packageName+"/raw/$path"
+            var uri = Uri.parse(vidPath)
+            binding.vGirl.setVideoURI(uri)
+            binding.vGirl.setOnPreparedListener {
+                binding.vGirl.start()
+            }
+
 
             binding.btLeave.setOnClickListener {
-                parentActivity.supportFragmentManager.beginTransaction().run {
-                    replace(R.id.main_container, parentActivity.mainFragments[1])
-                    replace(R.id.chat_container, parentActivity.chatFragments[0])
-                    commit()
-                }
-                parentActivity.binding.bottonNavBar.visibility = View.VISIBLE
+                AlertDialog.Builder(requireContext())
+                    .setTitle("message")
+                    .setMessage("Are you sure you want to leave?")
+                    .setPositiveButton("Yes") { d, w ->
+                        parentActivity.supportFragmentManager.beginTransaction().run {
+                            replace(R.id.main_container, parentActivity.mainFragments[1])
+                            replace(R.id.chat_container, parentActivity.chatFragments[0])
+                            commit()
+                        }
+                        parentActivity.binding.bottonNavBar.visibility = View.VISIBLE
+                    }
+                    .setNegativeButton("No", null)
+                    .show()
+
             }
 
         }

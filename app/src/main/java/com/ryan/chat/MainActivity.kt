@@ -11,8 +11,11 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.ryan.chat.databinding.ActivityMainBinding
+import com.ryan.chat.databinding.FragmentHomeBinding
 import okhttp3.*
 import okio.ByteString
 import java.util.concurrent.TimeUnit
@@ -31,15 +34,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Log.d(TAG, "onCreate: 生成畫面")
+        val prefLogin = getSharedPreferences("login", AppCompatActivity.MODE_PRIVATE)
+        var login = prefLogin.getBoolean("login_state", false)
+
+        Log.d(TAG, "login_state = $login")
+
         binding.searchContainer.visibility = View.GONE
 
         initFragments()
 
-
-
         binding.bottonNavBar.setOnItemSelectedListener { item ->
-            val prefLogin = getSharedPreferences("login", AppCompatActivity.MODE_PRIVATE)
-            var login = prefLogin.getBoolean("login_state", false)
+
             when (item.itemId) {
                 R.id.action_home -> {
                     supportFragmentManager.beginTransaction().run {

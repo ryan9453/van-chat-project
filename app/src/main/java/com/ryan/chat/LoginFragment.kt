@@ -112,6 +112,8 @@ class LoginFragment : Fragment() {
                     Log.d(TAG, "btLogin: 有重新記住帳號")
                 }
                 Log.d(TAG, "帳號密碼正確 並印出remember=${remember}")
+                parentActivity.binding.tvHomeLoginUserid.setText(ed_user)
+                parentActivity.binding.imHead.visibility = View.VISIBLE
 
                 // 登入成功對話框，按OK後都會跳轉到 MainA
                 // 登入成功後，會把登入狀態紀錄到本地資料夾

@@ -47,6 +47,8 @@ class PersonFragment : Fragment() {
                 .putString("login_userid", "")
                 .apply()
             Log.d(TAG, "Login_state = $login")
+            parentActivity.binding.tvHomeLoginUserid.setText("")
+            parentActivity.binding.imHead.visibility = View.GONE
             parentActivity.supportFragmentManager.beginTransaction().run {
                 // mainFragments[3] = LoginFragment
                 replace(R.id.main_container, parentActivity.mainFragments[3])
