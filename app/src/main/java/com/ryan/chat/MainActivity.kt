@@ -35,10 +35,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Log.d(TAG, "onCreate: 生成畫面")
-        val prefLogin = getSharedPreferences("login", AppCompatActivity.MODE_PRIVATE)
-        var login = prefLogin.getBoolean("login_state", false)
 
-        Log.d(TAG, "login_state = $login")
 
         binding.searchContainer.visibility = View.GONE
 
@@ -56,6 +53,8 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.action_person -> {
+                    val prefLogin = getSharedPreferences("login", AppCompatActivity.MODE_PRIVATE)
+                    var login = prefLogin.getBoolean("login_state", false)
                     Log.d(TAG, "login_state = $login")
                     if (login) {
                         Log.d(TAG, "有登入去個人資訊")
