@@ -1,6 +1,7 @@
 package com.ryan.chat
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,17 +42,17 @@ class SearchFragment : Fragment() {
             adapter.submitRooms(rooms)
         }
 
-        roomViewModel.getSearchRooms()
-
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             android.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                binding.searchView.query.toString()
+                val keywords = binding.searchView.query.toString()
+                roomViewModel.getSearchRooms(keywords)
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-
+                val keywords = binding.searchView.query.toString()
+                roomViewModel.getSearchRooms(keywords)
                 return false
             }
 
@@ -82,7 +83,9 @@ class SearchFragment : Fragment() {
         }
         fun submitRooms(rooms: List<Lightyear>) {
             searchRooms.clear()
+            Log.d(TAG, "count of rooms = ${searchRooms.size}")
             searchRooms.addAll(rooms)
+            Log.d(TAG, "count of rooms = ${searchRooms.size}")
             notifyDataSetChanged()
         }
 

@@ -12,7 +12,9 @@ class RoomViewModel : ViewModel() {
     // 將直播間資料設定成 LiveData以便觀察
     val chatRooms = MutableLiveData<List<Lightyear>>()
     val searchRooms = MutableLiveData<List<Lightyear>>()
-    val rooms = mutableListOf<Lightyear>()
+    val resultRoomsSet = mutableSetOf<Lightyear>()
+    val resultRooms = mutableListOf<Lightyear>()
+    var keysList = mutableListOf<String>()
 
     // 當呼叫此方法時就取得直播間資料，並改變該 LiveData的值
     fun getAllRooms() {
@@ -29,7 +31,7 @@ class RoomViewModel : ViewModel() {
             chatRooms.postValue(response.result.lightyear_list)
         }
     }
-    fun getSearchRooms() {
+    fun getSearchRooms(keywords : String) {
         viewModelScope.launch(Dispatchers.IO) {
             // 先將回應的json轉成字串
             val json = URL("https://api.jsonserve.com/qHsaqy").readText()
@@ -37,10 +39,33 @@ class RoomViewModel : ViewModel() {
             // 並新增一個接收他 json結構的類別
             // 將 json字串建立成一個類別物件
             val response = Gson().fromJson(json, ChatRooms::class.java)
+
+            val searchKeyMap = mutableMapOf<String, Lightyear>()
+            response.result.lightyear_list.forEach {
+                searchKeyMap.put(it.nickname, it)
+                searchKeyMap.put(it.stream_title, it)
+                searchKeyMap.put(it.tags, it)
+                keysList.add(it.nickname)
+                keysList.add(it.stream_title)
+                keysList.add(it.tags)
+            }
+            if (keywords == "") {
+                resultRoomsSet.clear()
+            } else {
+                resultRoomsSet.clear()
+                keysList.forEach {
+                    if (keywords in it) {
+                        searchKeyMap[it]?.let {
+                                it1 -> resultRoomsSet.add(it1)
+                        }
+                    }
+                }
+            }
+
             // 先裝前面兩個當 DEMO
-            rooms.add(response.result.lightyear_list[0])
-            rooms.add(response.result.lightyear_list[1])
-            searchRooms.postValue(rooms)
+//            resultRooms.add(response.result.lightyear_list[0])
+//            resultRooms.add(response.result.lightyear_list[1])
+            searchRooms.postValue(resultRoomsSet.toList())
         }
     }
 }
