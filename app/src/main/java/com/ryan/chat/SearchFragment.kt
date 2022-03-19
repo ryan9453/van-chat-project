@@ -17,6 +17,9 @@ import com.ryan.chat.databinding.RowSearchroomBinding
 class SearchFragment : Fragment() {
     companion object {
         val TAG = SearchFragment::class.java.simpleName
+        val instance : SearchFragment by lazy {
+            SearchFragment()
+        }
     }
     lateinit var binding: FragmentSearchBinding
     lateinit var adapter : SearchRoomAdapter

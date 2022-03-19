@@ -10,6 +10,9 @@ import com.ryan.chat.databinding.FragmentPhotoBinding
 class PhotoFragment : Fragment () {
     companion object {
         val TAG = PhotoFragment::class.java.simpleName
+        val instance : PhotoFragment by lazy {
+            PhotoFragment()
+        }
     }
     lateinit var binding: FragmentPhotoBinding
     override fun onCreateView(

@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     val mainFragments = mutableListOf<Fragment>()
     val chatFragments = mutableListOf<Fragment>()
+    val roomViewModel by viewModels<RoomViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,27 +77,32 @@ class MainActivity : AppCompatActivity() {
                         commit()
                     }
                     binding.searchContainer.visibility = View.VISIBLE
+                    roomViewModel.chatRooms.observe(this) { rooms ->
+                        HomeFragment().adapter.submitRooms(rooms)
+                    }
+                    roomViewModel.getHitRooms()
                     true
                 }
                 else -> true
             }
         }
+
     }
 
     private fun initFragments() {
-        mainFragments.add(0, EmptyFragment())
-        mainFragments.add(1, HomeFragment())
-        mainFragments.add(2, PersonFragment())
-        mainFragments.add(3, LoginFragment())
-        mainFragments.add(4, SignUpFragment())
-        mainFragments.add(5, PhotoFragment())
+        mainFragments.add(0, EmptyFragment.instance)
+        mainFragments.add(1, HomeFragment.instance)
+        mainFragments.add(2, PersonFragment.instance)
+        mainFragments.add(3, LoginFragment.instance)
+        mainFragments.add(4, SignUpFragment.instance)
+        mainFragments.add(5, PhotoFragment.instance)
 
-        chatFragments.add(0, EmptyFragment())
-        chatFragments.add(1, RoomFragment())
+        chatFragments.add(0, EmptyFragment.instance)
+        chatFragments.add(1, RoomFragment.instance)
         supportFragmentManager.beginTransaction().run {
             add(R.id.main_container, mainFragments[1])
             add(R.id.chat_container, chatFragments[0])
-            add(R.id.search_container, SearchFragment())
+            add(R.id.search_container, SearchFragment.instance)
             commit()
         }
 

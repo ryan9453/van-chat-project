@@ -14,6 +14,9 @@ import com.ryan.chat.databinding.FragmentSignUpBinding
 class SignUpFragment : Fragment() {
     companion object {
         val TAG = SignUpFragment::class.java.simpleName
+        val instance : SignUpFragment by lazy {
+            SignUpFragment()
+        }
     }
     lateinit var binding: FragmentSignUpBinding
     override fun onCreateView(

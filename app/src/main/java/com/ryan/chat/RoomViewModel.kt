@@ -1,5 +1,6 @@
 package com.ryan.chat
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,8 +13,8 @@ class RoomViewModel : ViewModel() {
     // 將直播間資料設定成 LiveData以便觀察
     val chatRooms = MutableLiveData<List<Lightyear>>()
     val searchRooms = MutableLiveData<List<Lightyear>>()
-    val resultRoomsSet = mutableSetOf<Lightyear>()
-    var keysList = mutableListOf<String>()
+
+
 
     // 當呼叫此方法時就取得直播間資料，並改變該 LiveData的值
     fun getAllRooms() {
@@ -38,8 +39,10 @@ class RoomViewModel : ViewModel() {
             // 並新增一個接收他 json結構的類別
             // 將 json字串建立成一個類別物件
             val response = Gson().fromJson(json, ChatRooms::class.java)
-
             val searchKeyMap = mutableMapOf<String, Lightyear>()
+            var keysList = mutableListOf<String>()
+            val resultRoomsSet = mutableSetOf<Lightyear>()
+
             response.result.lightyear_list.forEach {
                 searchKeyMap.put(it.nickname, it)
                 searchKeyMap.put(it.stream_title, it)
@@ -55,16 +58,36 @@ class RoomViewModel : ViewModel() {
                 keysList.forEach {
                     if (keywords in it) {
                         searchKeyMap[it]?.let {
-                                it1 -> resultRoomsSet.add(it1)
+                                matchRoom -> resultRoomsSet.add(matchRoom)
                         }
                     }
                 }
             }
-
-            // 先裝前面兩個當 DEMO
-//            resultRooms.add(response.result.lightyear_list[0])
-//            resultRooms.add(response.result.lightyear_list[1])
             searchRooms.postValue(resultRoomsSet.toList())
         }
     }
+
+    fun getHitRooms() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val json = URL("https://api.jsonserve.com/qHsaqy").readText()
+            val response = Gson().fromJson(json, ChatRooms::class.java)
+            val hitKeyMap = mutableMapOf<Int, Lightyear>()
+            var keysList = mutableListOf<Int>()
+            val resultRooms = mutableListOf<Lightyear>()
+
+            response.result.lightyear_list.forEach {
+                hitKeyMap.put(it.online_num, it)
+                keysList.add(it.online_num)
+            }
+
+            keysList.sortDescending()
+
+            keysList.forEach {
+                hitKeyMap[it]?.let { sortedRoom -> resultRooms.add(sortedRoom) }
+            }
+            chatRooms.postValue(resultRooms)
+            Log.d("viewModel", "有進來 getHitRooms方法")
+        }
+    }
+
 }

@@ -12,6 +12,9 @@ import com.ryan.chat.databinding.FragmentPersonBinding
 class PersonFragment : Fragment() {
     companion object {
         val TAG = PersonFragment::class.java.simpleName
+        val instance : PersonFragment by lazy {
+            PersonFragment()
+        }
     }
     lateinit var binding: FragmentPersonBinding
 

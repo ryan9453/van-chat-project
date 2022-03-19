@@ -22,10 +22,13 @@ import java.util.concurrent.TimeUnit
 class HomeFragment : Fragment() {
     companion object {
         val TAG = HomeFragment::class.java.simpleName
+        val instance : HomeFragment by lazy {
+            HomeFragment()
+        }
     }
     lateinit var binding: FragmentHomeBinding
     val roomViewModel by viewModels<RoomViewModel>()
-    lateinit var adapter: ChatRoomAdapter
+    var adapter = ChatRoomAdapter()
     lateinit var websocket: WebSocket
 
     override fun onCreateView(
@@ -102,7 +105,6 @@ class HomeFragment : Fragment() {
 //        }
         binding.recycler.setHasFixedSize(true)
         binding.recycler.layoutManager = GridLayoutManager(requireContext(),2)
-        adapter = ChatRoomAdapter()
         binding.recycler.adapter = adapter
 
         // viewModel
@@ -139,6 +141,7 @@ class HomeFragment : Fragment() {
         fun submitRooms(rooms: List<Lightyear>) {
             chatRooms.clear()
             chatRooms.addAll(rooms)
+            Log.d(TAG, "rooms of num = ${rooms.size}")
             notifyDataSetChanged()
         }
 

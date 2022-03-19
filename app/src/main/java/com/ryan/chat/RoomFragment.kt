@@ -12,6 +12,9 @@ import com.ryan.chat.databinding.FragmentRoomBinding
 class RoomFragment : Fragment() {
         companion object {
             val TAG = RoomFragment::class.java.simpleName
+            val instance : RoomFragment by lazy {
+                RoomFragment()
+            }
         }
         lateinit var binding: FragmentRoomBinding
 
@@ -56,7 +59,6 @@ class RoomFragment : Fragment() {
             binding.vGirl.setOnPreparedListener {
                 binding.vGirl.start()
             }
-
 
             binding.btLeave.setOnClickListener {
                 AlertDialog.Builder(requireContext())

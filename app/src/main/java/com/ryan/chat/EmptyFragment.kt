@@ -11,6 +11,9 @@ import com.ryan.chat.databinding.FragmentEmptyBinding
 class EmptyFragment : Fragment() {
     companion object {
         val TAG = EmptyFragment::class.java.simpleName
+        val instance : EmptyFragment by lazy {
+            EmptyFragment()
+        }
     }
     lateinit var binding: FragmentEmptyBinding
     override fun onCreateView(

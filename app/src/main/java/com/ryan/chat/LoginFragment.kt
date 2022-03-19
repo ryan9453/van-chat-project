@@ -15,6 +15,9 @@ import com.ryan.chat.databinding.FragmentPersonBinding
 class LoginFragment : Fragment() {
     companion object {
         val TAG = LoginFragment::class.java.simpleName
+        val instance : LoginFragment by lazy {
+            LoginFragment()
+        }
     }
     lateinit var binding: FragmentLoginBinding
     // 將打勾情形使用 remember紀錄起來，預設 false
