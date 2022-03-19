@@ -13,7 +13,6 @@ class RoomViewModel : ViewModel() {
     val chatRooms = MutableLiveData<List<Lightyear>>()
     val searchRooms = MutableLiveData<List<Lightyear>>()
     val resultRoomsSet = mutableSetOf<Lightyear>()
-    val resultRooms = mutableListOf<Lightyear>()
     var keysList = mutableListOf<String>()
 
     // 當呼叫此方法時就取得直播間資料，並改變該 LiveData的值

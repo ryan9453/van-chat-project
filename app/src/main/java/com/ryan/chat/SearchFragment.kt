@@ -86,6 +86,11 @@ class SearchFragment : Fragment() {
             Log.d(TAG, "count of rooms = ${searchRooms.size}")
             searchRooms.addAll(rooms)
             Log.d(TAG, "count of rooms = ${searchRooms.size}")
+            if (rooms.size == 0) {
+                binding.tvSearchResult.visibility = View.GONE
+            } else {
+                binding.tvSearchResult.visibility = View.VISIBLE
+            }
             notifyDataSetChanged()
         }
 
