@@ -86,7 +86,7 @@ class RoomViewModel : ViewModel() {
                 hitKeyMap[it]?.let { sortedRoom -> resultRooms.add(sortedRoom) }
             }
             chatRooms.postValue(resultRooms)
-            Log.d("viewModel", "有進來 getHitRooms方法")
+            Log.d("viewModel", "第一間房間是 = ${resultRooms[0].nickname}")
         }
     }
 

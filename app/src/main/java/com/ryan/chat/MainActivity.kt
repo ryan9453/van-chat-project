@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity() {
                     binding.searchContainer.visibility = View.VISIBLE
                     roomViewModel.chatRooms.observe(this) { rooms ->
                         HomeFragment().adapter.submitRooms(rooms)
+                        Log.d(TAG, "第一間房間是 = ${rooms[0].nickname}")
                     }
                     roomViewModel.getHitRooms()
                     true
@@ -90,7 +91,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initFragments() {
-        mainFragments.add(0, EmptyFragment.instance)
+        mainFragments.add(0, EmptyFragment())
         mainFragments.add(1, HomeFragment.instance)
         mainFragments.add(2, PersonFragment.instance)
         mainFragments.add(3, LoginFragment.instance)

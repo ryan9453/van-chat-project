@@ -44,6 +44,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         // 由此處開始寫 code
         val parentActivity = requireActivity() as MainActivity
         val prefLogin = requireContext().getSharedPreferences("login", AppCompatActivity.MODE_PRIVATE)
@@ -56,53 +57,6 @@ class HomeFragment : Fragment() {
         }
         else parentActivity.binding.tvHomeLoginUserid.setText("")
 
-        val client = OkHttpClient.Builder()
-            .readTimeout(3, TimeUnit.SECONDS)
-            .build()
-        val request = Request.Builder()
-            .url("wss://lott-dev.lottcube.asia/ws/chat/chat:app_test?nickname=Hank")
-            .build()
-
-        websocket = client.newWebSocket(request, object : WebSocketListener() {
-            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosed(webSocket, code, reason)
-                Log.d(TAG, ": onClosed");
-            }
-
-            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosing(webSocket, code, reason)
-                Log.d(TAG, ": onClosing");
-            }
-
-            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                super.onFailure(webSocket, t, response)
-                Log.d(TAG, ": onFailure");
-            }
-
-            override fun onMessage(webSocket: WebSocket, text: String) {
-                super.onMessage(webSocket, text)
-                Log.d(TAG, ": onMessage $text");
-            }
-
-            override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
-                super.onMessage(webSocket, bytes)
-                Log.d(TAG, ": onMessage ${bytes.hex()}");
-            }
-
-            override fun onOpen(webSocket: WebSocket, response: Response) {
-                super.onOpen(webSocket, response)
-                Log.d(TAG, ": onOpen: response = $response")
-            }
-        })
-
-//        binding.btRoom.setOnClickListener {
-//            parentActivity.supportFragmentManager.beginTransaction().run {
-//                replace(R.id.main_container, parentActivity.mainFragments[0])
-//                replace(R.id.chat_container, parentActivity.chatFragments[1])
-//                commit()
-//            }
-//            parentActivity.binding.bottonNavBar.visibility = View.GONE
-//        }
         binding.recycler.setHasFixedSize(true)
         binding.recycler.layoutManager = GridLayoutManager(requireContext(),2)
         binding.recycler.adapter = adapter
@@ -114,6 +68,10 @@ class HomeFragment : Fragment() {
             adapter.submitRooms(rooms)
         }
         roomViewModel.getAllRooms()
+        Log.d(TAG, "跑過 getAllRooms")
+//        roomViewModel.getHitRooms()
+//        Log.d(TAG, "跑過 getHitRooms")
+
 
     }
     inner class ChatRoomAdapter : RecyclerView.Adapter<BindingViewHolder>() {
@@ -142,7 +100,9 @@ class HomeFragment : Fragment() {
             chatRooms.clear()
             chatRooms.addAll(rooms)
             Log.d(TAG, "rooms of num = ${rooms.size}")
+            Log.d(TAG, "第一間房間是 = ${chatRooms[0].nickname}")
             notifyDataSetChanged()
+            Log.d(TAG, "第一間房間是 = ${chatRooms[0].nickname}")
         }
 
     }
@@ -159,9 +119,13 @@ class HomeFragment : Fragment() {
         parentActivity.supportFragmentManager.beginTransaction().run {
             replace(R.id.main_container, parentActivity.mainFragments[0])
             replace(R.id.chat_container, parentActivity.chatFragments[1])
+
             commit()
         }
         parentActivity.binding.bottonNavBar.visibility = View.GONE
+        parentActivity.binding.searchContainer.visibility = View.GONE
+        parentActivity.binding.imHead.visibility = View.GONE
+        parentActivity.binding.tvHomeLoginUserid.visibility = View.GONE
     }
 
 }
