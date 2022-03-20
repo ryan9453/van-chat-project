@@ -40,8 +40,8 @@ class PersonFragment : Fragment() {
         var username = prefUser.getString("${login_userid}name", "")
         binding.tvPersonShowUserid.setText(login_userid)
         binding.tvPersonShowName.setText(username)
-        
-        binding.imageView.setImageResource(R.drawable.picpersonal)
+
+        binding.imageView.setImageResource(R.drawable.jojo)
 
         binding.btLogout.setOnClickListener {
             val parentActivity =  requireActivity() as MainActivity

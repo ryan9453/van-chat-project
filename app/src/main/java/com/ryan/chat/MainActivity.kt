@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.action_search -> {
                     supportFragmentManager.beginTransaction().run {
-                        replace(R.id.main_container, mainFragments[1])
+                        replace(R.id.main_container, mainFragments[5])
                         commit()
                     }
                     binding.searchContainer.visibility = View.VISIBLE
@@ -96,7 +96,8 @@ class MainActivity : AppCompatActivity() {
         mainFragments.add(2, PersonFragment.instance)
         mainFragments.add(3, LoginFragment.instance)
         mainFragments.add(4, SignUpFragment.instance)
-        mainFragments.add(5, PhotoFragment.instance)
+        mainFragments.add(5, HitFragment.instance)
+        mainFragments.add(6, PhotoFragment.instance)
 
         chatFragments.add(0, EmptyFragment.instance)
         chatFragments.add(1, RoomFragment.instance)

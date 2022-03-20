@@ -110,5 +110,13 @@ class SignUpFragment : Fragment() {
             }
 
         }
+
+        binding.btBackToLogin.setOnClickListener {
+            val parentActivity =  requireActivity() as MainActivity
+            parentActivity.supportFragmentManager.beginTransaction().run {
+                replace(R.id.main_container, parentActivity.mainFragments[3])
+                commit()
+            }
+        }
     }
 }

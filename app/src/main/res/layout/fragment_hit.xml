@@ -3,21 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_room_message"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_hit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
-        android:alpha="0.65"
-        android:background="@drawable/msg_back"
-        android:padding="5dp"
-        android:text="I am Message"
-        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

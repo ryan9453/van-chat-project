@@ -55,9 +55,9 @@ class RoomViewModel : ViewModel() {
                 resultRoomsSet.clear()
             } else {
                 resultRoomsSet.clear()
-                keysList.forEach {
-                    if (keywords in it) {
-                        searchKeyMap[it]?.let {
+                keysList.forEach { key ->
+                    if (keywords in key) {
+                        searchKeyMap[key]?.let {
                                 matchRoom -> resultRoomsSet.add(matchRoom)
                         }
                     }
