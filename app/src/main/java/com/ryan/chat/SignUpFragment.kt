@@ -87,11 +87,11 @@ class SignUpFragment : Fragment() {
 
 
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Message")
-                    .setMessage("Sign up successfully!")
+                    .setTitle(getString(R.string.message))
+                    .setMessage(getString(R.string.sign_up_successfully))
 
                     // 若按 OK 登入狀態改成 true並將此次帳號存入資料夾
-                    .setPositiveButton("OK", null)
+                    .setPositiveButton(getString(R.string.ok), null)
                     .show()
 
                 // 跳轉回 Home

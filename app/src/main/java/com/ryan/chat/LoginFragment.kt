@@ -96,8 +96,8 @@ class LoginFragment : Fragment() {
 
             error_text =
                 when {
-                    check_user == "" -> "The Userid is not exist."
-                    ed_pwd != check_pwd -> "Wrong Password."
+                    check_user == "" -> getString(R.string.the_userid_is_not_exist)
+                    ed_pwd != check_pwd -> getString(R.string.wrong_password)
                     else -> ""
                 }
 
@@ -122,9 +122,9 @@ class LoginFragment : Fragment() {
                 // 登入成功對話框，按OK後都會跳轉到 MainA
                 // 登入成功後，會把登入狀態紀錄到本地資料夾
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Message")
-                    .setMessage("Log in successfully!")
-                    .setPositiveButton("OK", null)
+                    .setTitle(getString(R.string.message))
+                    .setMessage(getString(R.string.log_in_successfully))
+                    .setPositiveButton(getString(R.string.ok), null)
                     .show()
                 val login = prefLogin.getBoolean("login_state", false)
                 Log.d(TAG, "login_state = ${login}")
@@ -138,7 +138,7 @@ class LoginFragment : Fragment() {
                 AlertDialog.Builder(requireContext())
                     .setTitle(getString(R.string.wrong_message))
                     .setMessage(error_text)
-                    .setPositiveButton("OK",null)
+                    .setPositiveButton(getString(R.string.ok),null)
                     .show()
             }
 

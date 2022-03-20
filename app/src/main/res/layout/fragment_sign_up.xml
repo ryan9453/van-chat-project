@@ -32,7 +32,7 @@
         android:layout_marginBottom="152dp"
         android:alpha="0.75"
         android:background="@drawable/msg_back"
-        android:text="Send"
+        android:text="@string/send"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -44,7 +44,7 @@
         android:id="@+id/tv_sign_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nickname"
+        android:text="@string/nickname"
         app:layout_constraintBottom_toTopOf="@+id/ed_sign_name"
         app:layout_constraintStart_toStartOf="@+id/ed_sign_name" />
 
@@ -52,7 +52,7 @@
         android:id="@+id/tv_sign_userid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="User id"
+        android:text="@string/userid"
         app:layout_constraintBottom_toTopOf="@+id/ed_sign_userid"
         app:layout_constraintStart_toStartOf="@+id/ed_sign_userid" />
 
@@ -60,7 +60,7 @@
         android:id="@+id/tv_sign_pwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password"
+        android:text="@string/password"
         app:layout_constraintBottom_toTopOf="@+id/ed_sign_pwd"
         app:layout_constraintStart_toStartOf="@+id/ed_sign_pwd" />
 
@@ -80,7 +80,7 @@
         android:id="@+id/tv_sign_pwd_again"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please enter password again"
+        android:text="@string/please_enter_password_again"
         app:layout_constraintBottom_toTopOf="@+id/ed_sign_pwd_again"
         app:layout_constraintStart_toStartOf="@+id/ed_sign_pwd_again" />
 

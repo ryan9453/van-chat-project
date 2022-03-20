@@ -69,7 +69,7 @@
         android:alpha="0.6"
         android:background="@drawable/msg_back"
         android:ems="10"
-        android:hint="Send someting..."
+        android:hint="@string/send_something"
         android:inputType="textPersonName"
         android:textColor="@color/white"
         android:textColorHint="#FFFFFF"

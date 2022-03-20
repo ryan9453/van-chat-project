@@ -15,7 +15,7 @@
         android:alpha="0.65"
         android:background="@drawable/msg_back"
         android:padding="5dp"
-        android:text="I am Message"
+        android:text="@string/i_am_message"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

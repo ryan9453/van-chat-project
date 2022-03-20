@@ -113,14 +113,18 @@ class RoomFragment : Fragment() {
                     if ("sys_updateRoomStatus" in json) {
                         val response = Gson().fromJson(json, UpdateRoomStatus::class.java)
                         var action = response.body.entry_notice.action
-                        singleMessage =
-                            when (action)  {
-                                "enter" -> "歡迎 ${response.body.entry_notice.username} 進到直播間"
-//                                          Log.d(TAG, "歡迎 ${response.body.entry_notice.username} 進到直播間")
-                                "leave" ->  "${response.body.entry_notice.username} 已離開直播間"
-    //                                      Log.d(TAG, " ${response.body.entry_notice.username} 已離開直播間")
-                                else -> ""
-                            }
+                        activity?.runOnUiThread{
+                            singleMessage =
+                                when (action)  {
+//                                "enter" -> "歡迎 ${response.body.entry_notice.username} 進入聊天室"
+                                    "enter" ->"${getString(R.string.welcome)} ${response.body.entry_notice.username} ${getString(R.string.that_entering_the_room)}"
+//                                          Log.d(TAG, "歡迎 ${response.body.entry_notice.username} 進到聊天室")
+//                                "leave" ->  "${response.body.entry_notice.username} 已離開直播間"
+                                    "leave" ->  "${response.body.entry_notice.username} ${getString(R.string.has_left_the_room)}"
+                                    //                                      Log.d(TAG, " ${response.body.entry_notice.username} 已離開聊天室")
+                                    else -> ""
+                                }
+                        }
                     } else if ("admin_all_broadcast" in json) {
                         val response = Gson().fromJson(json, AllBroadcast::class.java)
                         singleMessage = """
@@ -133,7 +137,7 @@ class RoomFragment : Fragment() {
 //                        Log.d(TAG, "簡體公告:${response.body.content.cn}")
                     } else if ("sys_room_endStream" in json) {
                         val response = Gson().fromJson(json, RoomEndStream::class.java)
-                        singleMessage ="系統公告:${response.body.text}"
+                        activity?.runOnUiThread{singleMessage ="${getString(R.string.broadcast)}:${response.body.text}"}
 //                        Log.d(TAG, "系統公告:${response.body.text}")
                     } else if ("default_message" in json) {
                         val response = Gson().fromJson(json, ReceiveMessage::class.java)
@@ -141,11 +145,11 @@ class RoomFragment : Fragment() {
                     }
                     else if ("sys_member_notice" in json) {
                         val response = Gson().fromJson(json, MemberNotice::class.java)
-                        val noticeMessage = response.body.text
+//                        val noticeMessage = response.body.text
                         activity?.runOnUiThread {
-                            Toast.makeText(requireContext(), noticeMessage, Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(), getString(R.string.please_enter_words), Toast.LENGTH_LONG).show()
                         }
-                        Log.d(TAG, noticeMessage)
+//                        Log.d(TAG, noticeMessage)
                     }
                     else {
                         Log.d(TAG, "onMessage: $text")
@@ -181,28 +185,28 @@ class RoomFragment : Fragment() {
             }
 
             binding.btSend.setOnClickListener {
-                var message = binding.edSendMessage.text.toString()
-                var json = Gson().toJson(SendMessage("N", message))
+                val message = binding.edSendMessage.text.toString()
+                val json = Gson().toJson(SendMessage("N", message))
                 binding.edSendMessage.setText("")
                 websocket.send(json)
             }
 
             binding.btLeave.setOnClickListener {
                 AlertDialog.Builder(requireContext())
-                    .setTitle("message")
-                    .setMessage("Are you sure you want to leave?")
-                    .setPositiveButton("Yes") { d, w ->
+                    .setTitle(getString(R.string.message))
+                    .setMessage(getString(R.string.are_you_sure_want_to_leave))
+                    .setPositiveButton(getString(R.string.chat_yes)) { d, w ->
                         parentActivity.supportFragmentManager.beginTransaction().run {
                             replace(R.id.main_container, parentActivity.mainFragments[1])
                             replace(R.id.chat_container, parentActivity.chatFragments[0])
                             commit()
                         }
-                        val prefLogin = requireContext().getSharedPreferences("login", AppCompatActivity.MODE_PRIVATE)
-                        val login = prefLogin.getBoolean("login_state", false)
+//                        val prefLogin = requireContext().getSharedPreferences("login", AppCompatActivity.MODE_PRIVATE)
+//                        val login = prefLogin.getBoolean("login_state", false)
                         if (login) parentActivity.binding.tvHomeLoginUserid.visibility = View.VISIBLE
                         parentActivity.binding.bottonNavBar.visibility = View.VISIBLE
                     }
-                    .setNegativeButton("No", null)
+                    .setNegativeButton(getString(R.string.chat_no), null)
                     .show()
 
             }
