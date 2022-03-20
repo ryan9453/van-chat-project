@@ -68,6 +68,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#4A4A4A"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/im_head"
         app:layout_constraintStart_toEndOf="@+id/im_head"
         app:layout_constraintTop_toTopOf="@+id/im_head" />

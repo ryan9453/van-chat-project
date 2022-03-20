@@ -14,6 +14,8 @@
         android:layout_marginTop="4dp"
         android:text="The Best Hit!"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#4A4A4A"
+        android:textStyle="bold"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_recycler" />
