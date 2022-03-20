@@ -29,7 +29,6 @@ class HomeFragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
     val roomViewModel by viewModels<RoomViewModel>()
     var adapter = ChatRoomAdapter()
-    lateinit var websocket: WebSocket
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,6 +53,7 @@ class HomeFragment : Fragment() {
         if (login) {
             parentActivity.binding.tvHomeLoginUserid.setText(username)
             parentActivity.binding.imHead.visibility = View.VISIBLE
+            parentActivity.binding.tvHomeLoginUserid.setText(username)
         }
         else parentActivity.binding.tvHomeLoginUserid.setText("")
 

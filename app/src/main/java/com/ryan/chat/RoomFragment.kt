@@ -1,17 +1,23 @@
 package com.ryan.chat
 
+import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.ryan.chat.databinding.FragmentRoomBinding
+import com.ryan.chat.databinding.RowMessageBinding
 import okhttp3.*
 import okio.ByteString
 import java.util.concurrent.TimeUnit
@@ -25,6 +31,8 @@ class RoomFragment : Fragment() {
         }
         lateinit var binding: FragmentRoomBinding
         lateinit var websocket: WebSocket
+        lateinit var adapter : RoomMessageAdapter
+        val messageViewModel by viewModels<MessageViewModel>()
 
         // 測試用 直播室網址（圖片版
         val mapOfRoomId = mapOf(
@@ -95,25 +103,54 @@ class RoomFragment : Fragment() {
 
                 override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
                     super.onFailure(webSocket, t, response)
-                    Log.d(TAG, ": onFailure");
+                    Log.d(TAG, ": onFailure")
                 }
 
                 override fun onMessage(webSocket: WebSocket, text: String) {
                     super.onMessage(webSocket, text)
                     val json = text
+                    var singleMessage = ""
                     if ("sys_updateRoomStatus" in json) {
                         val response = Gson().fromJson(json, UpdateRoomStatus::class.java)
                         var action = response.body.entry_notice.action
-                        if (action == "enter") {
-                            Log.d(TAG, "歡迎 ${response.body.entry_notice.username} 進到直播間")
-                        } else if (action == "leave") {
-                            Log.d(TAG, " ${response.body.entry_notice.username} 已離開直播間")
-                        }
+                        singleMessage =
+                            when (action)  {
+                                "enter" -> "歡迎 ${response.body.entry_notice.username} 進到直播間"
+//                                          Log.d(TAG, "歡迎 ${response.body.entry_notice.username} 進到直播間")
+                                "leave" ->  "${response.body.entry_notice.username} 已離開直播間"
+    //                                      Log.d(TAG, " ${response.body.entry_notice.username} 已離開直播間")
+                                else -> ""
+                            }
                     } else if ("admin_all_broadcast" in json) {
                         val response = Gson().fromJson(json, AllBroadcast::class.java)
-                        Log.d(TAG, "${response.body.content.en}")
+                        singleMessage = """
+                            英文公告:${response.body.content.en}
+                            繁體公告:${response.body.content.tw}
+                            簡體公告:${response.body.content.cn}
+                        """.trimIndent()
+//                        Log.d(TAG, "英文公告:${response.body.content.en}")
+//                        Log.d(TAG, "繁體公告:${response.body.content.tw}")
+//                        Log.d(TAG, "簡體公告:${response.body.content.cn}")
+                    } else if ("sys_room_endStream" in json) {
+                        val response = Gson().fromJson(json, RoomEndStream::class.java)
+                        singleMessage ="系統公告:${response.body.text}"
+//                        Log.d(TAG, "系統公告:${response.body.text}")
+                    } else if ("default_message" in json) {
+                        val response = Gson().fromJson(json, ReceiveMessage::class.java)
+                        singleMessage = "${response.body.nickname} : ${response.body.text}"
                     }
-
+                    else if ("sys_member_notice" in json) {
+                        val response = Gson().fromJson(json, MemberNotice::class.java)
+                        val noticeMessage = response.body.text
+                        activity?.runOnUiThread {
+                            Toast.makeText(requireContext(), noticeMessage, Toast.LENGTH_LONG).show()
+                        }
+                        Log.d(TAG, noticeMessage)
+                    }
+                    else {
+                        Log.d(TAG, "onMessage: $text")
+                    }
+                    messageViewModel.getMessages(singleMessage)
                 }
 
                 override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
@@ -127,9 +164,27 @@ class RoomFragment : Fragment() {
                 }
             })
 
+            // 自動播放 Demo影片
             binding.vGirl.setVideoURI(uri)
             binding.vGirl.setOnPreparedListener {
                 binding.vGirl.start()
+            }
+
+            /// 聊天視窗
+            binding.msgRecycler.setHasFixedSize(true)
+            binding.msgRecycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true)
+            adapter = RoomMessageAdapter()
+            binding.msgRecycler.adapter = adapter
+
+            messageViewModel.messages.observe(viewLifecycleOwner) { messages ->
+                adapter.submitMessages(messages)
+            }
+
+            binding.btSend.setOnClickListener {
+                var message = binding.edSendMessage.text.toString()
+                var json = Gson().toJson(SendMessage("N", message))
+                binding.edSendMessage.setText("")
+                websocket.send(json)
             }
 
             binding.btLeave.setOnClickListener {
@@ -144,8 +199,6 @@ class RoomFragment : Fragment() {
                             commit()
                         }
                         parentActivity.binding.bottonNavBar.visibility = View.VISIBLE
-                        parentActivity.binding.imHead.visibility = View.VISIBLE
-                        parentActivity.binding.tvHomeLoginUserid.visibility = View.VISIBLE
                     }
                     .setNegativeButton("No", null)
                     .show()
@@ -153,5 +206,31 @@ class RoomFragment : Fragment() {
             }
 
         }
+    inner class RoomMessageAdapter : RecyclerView.Adapter<MessageViewHolder>() {
+        val sendMessage = mutableListOf<String>()
+        override fun getItemCount(): Int {
+            return sendMessage.size
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
+            val binding = RowMessageBinding.inflate(layoutInflater, parent, false)
+            return MessageViewHolder(binding)
+        }
+
+        override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
+            val singleMessage = sendMessage[position]
+            holder.messageContent.setText(singleMessage)
+        }
+        fun submitMessages(messages: String) {
+            sendMessage.add(0, messages)
+            notifyDataSetChanged()
+        }
+
+    }
+
+    inner class MessageViewHolder(val binding: RowMessageBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+                val messageContent = binding.tvRoomMessage
+            }
 
 }

@@ -59,13 +59,13 @@ data class Stream(
 )
 
 
-data class GuestMessage(
+data class SendMessage(
     val action: String,
     val content: String
 )
 
 
-data class MemberMessage(
+data class ReceiveMessage(
     val body: Body,
     val event: String,
     val room_id: String,
@@ -148,4 +148,34 @@ data class Content(
     val cn: String,
     val en: String,
     val tw: String
+)
+
+
+data class RoomEndStream(
+    val body: EndStreamBody,
+    val event: String,
+    val room_id: String,
+    val sender_role: Int,
+    val time: String
+)
+
+data class EndStreamBody(
+    val text: String,
+    val type: String
+)
+
+
+data class MemberNotice(
+    val body: NoticeBody,
+    val event: String,
+    val room_id: String,
+    val sender_role: Int,
+    val time: String
+)
+
+data class NoticeBody(
+    val num: Int,
+    val target_account: String,
+    val text: String,
+    val type: String
 )
