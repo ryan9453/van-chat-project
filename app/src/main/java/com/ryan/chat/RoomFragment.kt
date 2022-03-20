@@ -192,12 +192,14 @@ class RoomFragment : Fragment() {
                     .setTitle("message")
                     .setMessage("Are you sure you want to leave?")
                     .setPositiveButton("Yes") { d, w ->
-
                         parentActivity.supportFragmentManager.beginTransaction().run {
                             replace(R.id.main_container, parentActivity.mainFragments[1])
                             replace(R.id.chat_container, parentActivity.chatFragments[0])
                             commit()
                         }
+                        val prefLogin = requireContext().getSharedPreferences("login", AppCompatActivity.MODE_PRIVATE)
+                        val login = prefLogin.getBoolean("login_state", false)
+                        if (login) parentActivity.binding.tvHomeLoginUserid.visibility = View.VISIBLE
                         parentActivity.binding.bottonNavBar.visibility = View.VISIBLE
                     }
                     .setNegativeButton("No", null)

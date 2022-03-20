@@ -43,17 +43,15 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         // 由此處開始寫 code
         val parentActivity = requireActivity() as MainActivity
         val prefLogin = requireContext().getSharedPreferences("login", AppCompatActivity.MODE_PRIVATE)
-        var login = prefLogin.getBoolean("login_state", false)
-        var username = prefLogin.getString("login_userid", "")
+        val login = prefLogin.getBoolean("login_state", false)
+        val username = prefLogin.getString("login_userid", "")
 
         if (login) {
             parentActivity.binding.tvHomeLoginUserid.setText(username)
             parentActivity.binding.imHead.visibility = View.VISIBLE
-            parentActivity.binding.tvHomeLoginUserid.setText(username)
         }
         else parentActivity.binding.tvHomeLoginUserid.setText("")
 

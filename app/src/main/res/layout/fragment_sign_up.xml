@@ -7,8 +7,8 @@
 
     <EditText
         android:id="@+id/ed_sign_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="48dp"
         android:ems="10"
         android:inputType="textPersonName"
@@ -17,32 +17,24 @@
 
     <EditText
         android:id="@+id/ed_sign_userid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="48dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/ed_sign_pwd"
         app:layout_constraintStart_toStartOf="@+id/ed_sign_pwd" />
 
-    <EditText
-        android:id="@+id/ed_sign_pwd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
-        android:ems="10"
-        android:inputType="numberPassword"
-        app:layout_constraintBottom_toTopOf="@+id/ed_sign_pwd_again"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bt_sign_send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
         android:layout_marginBottom="152dp"
+        android:alpha="0.75"
+        android:background="@drawable/msg_back"
         android:text="Send"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -74,12 +66,12 @@
 
     <EditText
         android:id="@+id/ed_sign_pwd_again"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="236dp"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="40dp"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bt_sign_send"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
@@ -92,13 +84,24 @@
         app:layout_constraintBottom_toTopOf="@+id/ed_sign_pwd_again"
         app:layout_constraintStart_toStartOf="@+id/ed_sign_pwd_again" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bt_back_to_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="back"
+        android:background="@drawable/titlebarback"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/ed_sign_pwd"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="48dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/ed_sign_pwd_again"
+        app:layout_constraintEnd_toEndOf="@+id/ed_sign_pwd_again"
+        app:layout_constraintStart_toStartOf="@+id/ed_sign_pwd_again" />
 </androidx.constraintlayout.widget.ConstraintLayout>
