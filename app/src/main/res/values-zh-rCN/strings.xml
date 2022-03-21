@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Chat</string>
+    <string name="app_name">Ryan</string>
     <string name="welcome">欢迎</string>
     <string name="wrong_message">错误信息</string>
     <string name="wrong_password">错误的密码</string>
@@ -40,4 +40,5 @@
     <string name="has_left_the_room">已离开聊天室</string>
     <string name="that_entering_the_room">已进入聊天室</string>
     <string name="send_something">一起聊个天吧...</string>
+    <string name="userid_is_wrong">帐号只能包含英文字母和数字</string>
 </resources>

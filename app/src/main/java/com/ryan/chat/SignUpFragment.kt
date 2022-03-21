@@ -57,6 +57,7 @@ class SignUpFragment : Fragment() {
                 when {
                     CheckNumber(user).userId() == CheckNumber.NumberState.TOOSHORT -> getString(R.string.userid_too_short)
                     CheckNumber(user).userId() == CheckNumber.NumberState.TOOLONG -> getString(R.string.userid_too_long)
+                    CheckNumber(user).userId() == CheckNumber.NumberState.WRONG -> getString(R.string.userid_is_wrong)
                     CheckNumber(pwd).passWord() == CheckNumber.NumberState.TOOSHORT -> getString(R.string.pwd_too_short)
                     CheckNumber(pwd).passWord() == CheckNumber.NumberState.TOOLONG -> getString(R.string.pwd_too_long)
                     CheckNumber(pwd).passWord() == CheckNumber.NumberState.WRONG -> getString(R.string.pwd_is_wrong)
@@ -82,10 +83,6 @@ class SignUpFragment : Fragment() {
 
                 Log.d(TAG, "帳密輸入沒問題")
 
-                // 登入狀態詢問對話框，按「是」或「否」都會跳轉到 MainA
-                // 差在登入狀態不一樣，影響到下次開 APP，以 Boolean控制
-
-
                 AlertDialog.Builder(requireContext())
                     .setTitle(getString(R.string.message))
                     .setMessage(getString(R.string.sign_up_successfully))
@@ -97,8 +94,13 @@ class SignUpFragment : Fragment() {
                 // 跳轉回 Home
                 parentActivity.supportFragmentManager.beginTransaction().run {
                     replace(R.id.main_container, parentActivity.mainFragments[1])
+                    parentActivity.binding.tvHomeLoginUserid.setText(user)
                     commit()
                 }
+                binding.edSignName.setText("")
+                binding.edSignPwd.setText("")
+                binding.edSignUserid.setText("")
+                binding.edSignPwdAgain.setText("")
 
                 // 錯誤訊息對話框
             } else {

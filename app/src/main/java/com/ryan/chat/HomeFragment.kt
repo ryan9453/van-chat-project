@@ -117,7 +117,6 @@ class HomeFragment : Fragment() {
         parentActivity.supportFragmentManager.beginTransaction().run {
             replace(R.id.main_container, parentActivity.mainFragments[0])
             replace(R.id.chat_container, parentActivity.chatFragments[1])
-
             commit()
         }
         parentActivity.binding.bottonNavBar.visibility = View.GONE

@@ -3,6 +3,7 @@
     <string name="wrong_message">Wrong message</string>
     <string name="userid_too_short">Your userid is too short.</string>
     <string name="userid_too_long">Your userid is too long.</string>
+    <string name="userid_is_wrong">"Your userid can only contain letters or numbers."</string>
     <string name="pwd_too_short">Your password is too short.</string>
     <string name="pwd_too_long">Your password is too long.</string>
     <string name="pwd_is_wrong">Your password can only contain letters and numbers.</string>
