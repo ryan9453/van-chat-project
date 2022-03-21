@@ -18,6 +18,7 @@ import com.ryan.chat.databinding.ActivityMainBinding
 import com.ryan.chat.databinding.FragmentHomeBinding
 import okhttp3.*
 import okio.ByteString
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
@@ -35,7 +36,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Log.d(TAG, "onCreate: 生成畫面")
+//        val sysLanguage = Locale.getDefault().getLanguage()
+//        Log.d(TAG, "目前語言是 = $sysLanguage")
 
 
         binding.searchContainer.visibility = View.GONE

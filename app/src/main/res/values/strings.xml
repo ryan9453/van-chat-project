@@ -53,5 +53,6 @@
     <string name="has_left_the_room">has left the room</string>
     <string name="broadcast">broadcast</string>
     <string name="please_enter_words">please enter words.</string>
+    <string name="guest">guest</string>
 
 </resources>

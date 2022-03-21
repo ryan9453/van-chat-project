@@ -20,6 +20,7 @@ import com.ryan.chat.databinding.FragmentRoomBinding
 import com.ryan.chat.databinding.RowMessageBinding
 import okhttp3.*
 import okio.ByteString
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class RoomFragment : Fragment() {
@@ -77,7 +78,7 @@ class RoomFragment : Fragment() {
         var login = prefLogin.getBoolean("login_state", false)
         var user = prefLogin.getString("login_userid", "")
         var username = prefUser.getString("${user}name", "guest")
-        var requestName = "guest"
+        var requestName = getString(R.string.guest)
         val enterWelcomeString = getString(R.string.welcome)
         val enterRoomString = getString(R.string.that_entering_the_room)
         val leaveString = getString(R.string.has_left_the_room)
@@ -106,6 +107,7 @@ class RoomFragment : Fragment() {
         websocket = client.newWebSocket(request, object : WebSocketListener() {
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
                 super.onClosed(webSocket, code, reason)
+                Log.d(TAG, "onClosed: ")
             }
 
             override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
@@ -126,6 +128,8 @@ class RoomFragment : Fragment() {
                     val response = Gson().fromJson(json, UpdateRoomStatus::class.java)
                     val action = response.body.entry_notice.action
 
+                    val country = Locale.getDefault().country
+                    Log.d(TAG, "目前國家是 = $country")
                     singleMessage =
                         when (action)  {
 //                                "enter" -> "歡迎 ${response.body.entry_notice.username} 進入聊天室"
@@ -186,6 +190,7 @@ class RoomFragment : Fragment() {
 
         // 自動播放 Demo影片
         binding.vGirl.setVideoURI(uri)
+//        binding.vGirl.setVideoURI((Uri.parse("https://player.vimeo.com/video/653928650")))
         binding.vGirl.setOnPreparedListener {
             binding.vGirl.start()
         }
