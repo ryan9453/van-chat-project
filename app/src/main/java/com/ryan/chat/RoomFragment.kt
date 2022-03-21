@@ -74,10 +74,15 @@ class RoomFragment : Fragment() {
             var user = prefLogin.getString("login_userid", "")
             var username = prefUser.getString("${user}name", "guest")
             var requestName = "guest"
+            val enterWelcomeString = "${getString(R.string.welcome)}"
+            val enterRoomString = "${getString(R.string.that_entering_the_room)}"
+            val leaveString = "${getString(R.string.has_left_the_room)}"
+            val broadcastString = "${getString(R.string.broadcast)}"
+            val enterWordsString = ""
 
             if (login) {
                 requestName = username.toString()
-            }
+            } else true
 
             var path = "girl"
             var vidPath = "android.resource://"+requireContext().packageName+"/raw/$path"
@@ -112,19 +117,21 @@ class RoomFragment : Fragment() {
                     var singleMessage = ""
                     if ("sys_updateRoomStatus" in json) {
                         val response = Gson().fromJson(json, UpdateRoomStatus::class.java)
-                        var action = response.body.entry_notice.action
-                        activity?.runOnUiThread{
-                            singleMessage =
-                                when (action)  {
+                        val action = response.body.entry_notice.action
+
+                        singleMessage =
+                            when (action)  {
 //                                "enter" -> "歡迎 ${response.body.entry_notice.username} 進入聊天室"
-                                    "enter" ->"${getString(R.string.welcome)} ${response.body.entry_notice.username} ${getString(R.string.that_entering_the_room)}"
-//                                          Log.d(TAG, "歡迎 ${response.body.entry_notice.username} 進到聊天室")
+                                "enter" -> enterWelcomeString+" ${response.body.entry_notice.username} "+enterRoomString
+
 //                                "leave" ->  "${response.body.entry_notice.username} 已離開直播間"
-                                    "leave" ->  "${response.body.entry_notice.username} ${getString(R.string.has_left_the_room)}"
-                                    //                                      Log.d(TAG, " ${response.body.entry_notice.username} 已離開聊天室")
-                                    else -> ""
-                                }
-                        }
+                                "leave" ->  "${response.body.entry_notice.username} "+leaveString
+                                //                                      Log.d(TAG, " ${response.body.entry_notice.username} 已離開聊天室")
+                                else -> ""
+                            }
+                        Log.d(TAG, "歡迎 ${response.body.entry_notice.username} 進到聊天室")
+                        Log.d(TAG, "${getString(R.string.welcome)} ${response.body.entry_notice.username} ${getString(R.string.that_entering_the_room)}2")
+
                     } else if ("admin_all_broadcast" in json) {
                         val response = Gson().fromJson(json, AllBroadcast::class.java)
                         singleMessage = """
@@ -132,12 +139,12 @@ class RoomFragment : Fragment() {
                             繁體公告:${response.body.content.tw}
                             簡體公告:${response.body.content.cn}
                         """.trimIndent()
-//                        Log.d(TAG, "英文公告:${response.body.content.en}")
-//                        Log.d(TAG, "繁體公告:${response.body.content.tw}")
-//                        Log.d(TAG, "簡體公告:${response.body.content.cn}")
+                        Log.d(TAG, "英文公告:${response.body.content.en}")
+                        Log.d(TAG, "繁體公告:${response.body.content.tw}")
+                        Log.d(TAG, "簡體公告:${response.body.content.cn}")
                     } else if ("sys_room_endStream" in json) {
                         val response = Gson().fromJson(json, RoomEndStream::class.java)
-                        activity?.runOnUiThread{singleMessage ="${getString(R.string.broadcast)}:${response.body.text}"}
+                        singleMessage =broadcastString+" :${response.body.text}"
 //                        Log.d(TAG, "系統公告:${response.body.text}")
                     } else if ("default_message" in json) {
                         val response = Gson().fromJson(json, ReceiveMessage::class.java)
@@ -154,7 +161,9 @@ class RoomFragment : Fragment() {
                     else {
                         Log.d(TAG, "onMessage: $text")
                     }
+//                    messageViewModel.getMessages(singleMessage)
                     messageViewModel.getMessages(singleMessage)
+                    Log.d(TAG, "singleMessage = $singleMessage")
                 }
 
                 override fun onMessage(webSocket: WebSocket, bytes: ByteString) {

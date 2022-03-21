@@ -5,7 +5,7 @@
     <string name="userid_too_short">帳號長度太短</string>
     <string name="userid_too_long">帳號長度太長</string>
     <string name="pwd_too_short">密碼長度太短</string>
-    <string name="pwd_too_long">密碼長太長</string>
+    <string name="pwd_too_long">密碼長度太長</string>
     <string name="pwd_is_wrong">密碼只能包含英文字母和數字</string>
     <string name="pwd_is_not_same">兩次輸入的密碼不一致</string>
     <string name="home">首頁</string>
@@ -36,7 +36,7 @@
     <string name="chat_no">先不要</string>
     <string name="sign_up_successfully">註冊成功！</string>
     <string name="welcome">歡迎</string>
-    <string name="that_entering_the_room">已進入聊天室</string>
+    <string name="that_entering_the_room">進入聊天室</string>
     <string name="has_left_the_room">已離開聊天室</string>
     <string name="broadcast">公告</string>
     <string name="please_enter_words">請輸入文字</string>

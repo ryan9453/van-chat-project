@@ -1,8 +1,12 @@
 package com.ryan.chat
 
+import android.provider.Settings.Global.getString
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.WebSocket
@@ -20,4 +24,5 @@ class MessageViewModel :ViewModel() {
         }
         if (singleMessage != "") messages.postValue(singleMessage)
     }
+
 }

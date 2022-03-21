@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Chat</string>
+    <string name="app_name">Ryan</string>
     <string name="wrong_message">Wrong message</string>
     <string name="userid_too_short">Your userid is too short.</string>
     <string name="userid_too_long">Your userid is too long.</string>
