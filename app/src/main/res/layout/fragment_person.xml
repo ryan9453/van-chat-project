@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/im_my_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -28,7 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/im_my_head" />
 
     <TextView
         android:id="@+id/tv_person_name"
@@ -94,4 +94,14 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_person_show_userid" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bt_edit_head"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="224dp"
+        android:layout_marginEnd="144dp"
+        android:background="@drawable/btnbedit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

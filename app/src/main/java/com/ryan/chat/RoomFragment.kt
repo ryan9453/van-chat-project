@@ -127,9 +127,9 @@ class RoomFragment : Fragment() {
                 if ("sys_updateRoomStatus" in json) {
                     val response = Gson().fromJson(json, UpdateRoomStatus::class.java)
                     val action = response.body.entry_notice.action
-
                     val country = Locale.getDefault().country
                     Log.d(TAG, "目前國家是 = $country")
+
                     singleMessage =
                         when (action)  {
 //                                "enter" -> "歡迎 ${response.body.entry_notice.username} 進入聊天室"
@@ -145,11 +145,19 @@ class RoomFragment : Fragment() {
 
                 } else if ("admin_all_broadcast" in json) {
                     val response = Gson().fromJson(json, AllBroadcast::class.java)
-                    singleMessage = """
-                        英文公告:${response.body.content.en}
-                        繁體公告:${response.body.content.tw}
-                        簡體公告:${response.body.content.cn}
-                    """.trimIndent()
+                    val country = Locale.getDefault().country
+                    Log.d(TAG, "目前國家是 = $country")
+                    singleMessage =
+                        when (country) {
+                            "TW" -> "廣播 : ${response.body.content.tw}"
+                            "US" -> "broadcast : ${response.body.content.en}"
+                            else -> "广播 : ${response.body.content.cn}"
+                        }
+//                    singleMessage = """
+//                        英文公告:${response.body.content.en}
+//                        繁體公告:${response.body.content.tw}
+//                        簡體公告:${response.body.content.cn}
+//                    """.trimIndent()
                     Log.d(TAG, "英文公告:${response.body.content.en}")
                     Log.d(TAG, "繁體公告:${response.body.content.tw}")
                     Log.d(TAG, "簡體公告:${response.body.content.cn}")

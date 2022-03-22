@@ -2,28 +2,22 @@ package com.ryan.chat
 
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.ryan.chat.databinding.ActivityMainBinding
-import com.ryan.chat.databinding.FragmentHomeBinding
-import okhttp3.*
-import okio.ByteString
 import java.util.*
 import java.util.concurrent.TimeUnit
+import androidx.core.app.ActivityCompat
+import android.Manifest.permission.*
+import android.content.pm.PackageManager
 
 class MainActivity : AppCompatActivity() {
     companion object {
         val TAG = MainActivity::class.java.simpleName
+        val REQUEST_CONTACTS = 100
     }
 
     lateinit var binding: ActivityMainBinding
@@ -43,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         binding.searchContainer.visibility = View.GONE
 
         initFragments()
+
 
         binding.bottonNavBar.setOnItemSelectedListener { item ->
 
